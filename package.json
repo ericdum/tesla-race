@@ -1,0 +1,37 @@
+{
+  "name": "tesla-race",
+  "version": "1.0.0",
+  "description": "The project is using to animate the trajectories of tesla trip to compare each trajectory with a additional dimension of time. Like you can do such a kind of race between two point to find out a best path from origin to destination.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericdum/tesla-race.git"
+  },
+  "keywords": [
+    "teslamate",
+    "tesla",
+    "mapbox"
+  ],
+  "author": "Lichen Dai (formateric@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericdum/tesla-race/issues"
+  },
+  "homepage": "https://github.com/ericdum/tesla-race#readme",
+  "dependencies": {
+    "@turf/turf": "^6.5.0",
+    "koa": "^2.14.1",
+    "koa-mount": "^4.0.0",
+    "koa-router": "^12.0.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^8.0.0",
+    "mapbox": "^1.0.0-beta10",
+    "moment": "^2.29.4",
+    "pg": "^8.9.0",
+    "postgres": "^3.3.3",
+    "underscore": "^1.13.6"
+  }
+}

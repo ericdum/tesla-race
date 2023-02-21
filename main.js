@@ -140,8 +140,8 @@ async function getCars() {
   return await pool.query(`select distinct car_id from drives;`)
 }
 
-async function getOD(timerange) {
-  return await pool.query(`
+async function getODPairs(timerange) {
+  return (await pool.query(`
     select cnt, sg.name as start_name, eg.name as end_name from
     (
       select count(1) as cnt, start_geofence_id, end_geofence_id
@@ -149,14 +149,48 @@ async function getOD(timerange) {
       where 
         start_geofence_id is not null 
         and end_geofence_id is not null
-        and start_date BETWEEN $3 AND $4
       group by start_geofence_id, end_geofence_id
       order by cnt desc
     ) d
     left join geofences sg on sg.id = d.start_geofence_id
     left join geofences eg on eg.id = d.end_geofence_id
-  `, [m(timerange[0]).toISOString(), m(timerange[1]).toISOString()])
+  `)).rows
 }
+
+async function getODPairs(origin, dest) {
+  let origins = {};
+  let destinations = {};
+
+  (await pool.query(`
+    select cnt, sg.name as start_name, eg.name as end_name from
+    (
+      select count(1) as cnt, start_geofence_id, end_geofence_id
+      from drives
+      where 
+        start_geofence_id is not null 
+        and end_geofence_id is not null
+      group by start_geofence_id, end_geofence_id
+      order by cnt desc
+    ) d
+    left join geofences sg on sg.id = d.start_geofence_id
+    left join geofences eg on eg.id = d.end_geofence_id
+    where sg.name like '%${origin}%' and eg.name like '%${dest}%'
+  `)).rows.forEach((od)=>{
+    origins[od.start_name] = true;
+    destinations[od.end_name] = true;
+  })
+
+  return {
+    origins: Object.keys(origins),
+    destinations: Object.keys(destinations)
+  }
+
+}
+
+router.get('/od_pairs', async (ctx) => {
+  let data = ctx.request.query
+  ctx.body = await getODPairs(data.origin, data.destination)
+})
 
 router.get('/', async (ctx) => {
   let data = ctx.request.query
@@ -171,6 +205,7 @@ router.get('/', async (ctx) => {
   await ctx.render('index', {
     mapbox_token: process.env.MAPBOX_TOKEN,
     data: await fixedODName(origin, destination, timerange, car),
+    ods: await getODPairs(),
     scretes: scretes,
     origin: origin,
     destination: destination,

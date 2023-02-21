@@ -25,13 +25,13 @@ To configurate the database connection by set env var like PG_PORT, PG_HOST,... 
 
 # Todo
 - [x] Autocomlete search for OD.
-- [] Enhance OD searching by street addresses.
-- [] Support long range travel.
-- [] Custom replay speed
-- [] Give charts for speed, AP status,...
-- [] Drop icons to the map when meet red lights.
-- [] Cluster by different trajectory and give different color to their marker.
-- [] Date Picker
+- [ ] Enhance OD searching by street addresses.
+- [ ] Support long range travel.
+- [ ] Custom replay speed
+- [ ] Give charts for speed, AP status,...
+- [ ] Drop icons to the map when meet red lights.
+- [ ] Cluster by different trajectory and give different color to their marker.
+- [ ] Date Picker
 
 # Contributes
 Welcome to contributes, you can either add on framework or implement features, pls fork and make pull request. 

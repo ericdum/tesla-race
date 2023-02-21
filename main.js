@@ -161,6 +161,12 @@ async function getODPairs(origin, dest) {
   let origins = {};
   let destinations = {};
 
+  let where = "";
+  if (origin || dest) where = " where ";
+  if (origin) where += `sg.name like '%${origin}%'`;
+  if (origin && dest) where += ` and `;
+  if (dest) where += `eg.name like '%${dest}%'`;
+
   (await pool.query(`
     select cnt, sg.name as start_name, eg.name as end_name from
     (
@@ -174,11 +180,11 @@ async function getODPairs(origin, dest) {
     ) d
     left join geofences sg on sg.id = d.start_geofence_id
     left join geofences eg on eg.id = d.end_geofence_id
-    where sg.name like '%${origin}%' and eg.name like '%${dest}%'
+    ${where}
+
   `)).rows.forEach((od)=>{
     origins[od.start_name] = true;
-    destinations[od.end_name] = true;
-  })
+    destinations[od.end_name] = true; })
 
   return {
     origins: Object.keys(origins),
@@ -193,9 +199,10 @@ router.get('/od_pairs', async (ctx) => {
 })
 
 router.get('/', async (ctx) => {
+  let ods = await getODPairs();
   let data = ctx.request.query
-  let origin = data.origin;
-  let destination = data.destination; 
+  let origin = data.origin || ods.origins[0];
+  let destination = data.destination || ods.destinations[0]; 
   let car = data.car || 1; 
   let timerange = [
     m(data['date-from']) || m().add(-30, 'd'), 
@@ -205,15 +212,15 @@ router.get('/', async (ctx) => {
   await ctx.render('index', {
     mapbox_token: process.env.MAPBOX_TOKEN,
     data: await fixedODName(origin, destination, timerange, car),
-    ods: await getODPairs(),
+    ods: ods,
     scretes: scretes,
     origin: origin,
     destination: destination,
     timerange: timerange,
-    longitude: data.longitude,
-    latitude: data.latitude,
-    zoom: data.zoom,
-    car: data.car,
+    longitude: data.longitude || 120,
+    latitude: data.latitude || 30,
+    zoom: data.zoom || 2,
+    car: car,
   });
 })
 

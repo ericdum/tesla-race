@@ -2,6 +2,8 @@
 
 The project is using to animate the trajectories of tesla trip to compare each trajectory with time dimension. For example, you can do such a kind of race between two point to find out a best path from origin to destination.
 
+https://user-images.githubusercontent.com/690825/220274451-5a001fcd-f9f0-4aa8-8a8a-cecd0f428adf.mp4
+
 # Usage
 
 ## Local
@@ -20,8 +22,6 @@ The project is using to animate the trajectories of tesla trip to compare each t
 The protect using postgres provided by teslamate.
 
 To configurate the database connection by set env var like PG_PORT, PG_HOST,... find more in lib/postgres.js
-
-# 
 
 # Todo
 - [x] Autocomlete search for OD.

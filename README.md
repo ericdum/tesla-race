@@ -12,7 +12,8 @@ The project is using to animate the trajectories of tesla trip to compare each t
 
 ## Docker
 1. Signup to MapBox for a access token at https://account.mapbox.com/
-2. docker run -p 3000:3000 -e PG_PORT=... -e PG_HOST=... -e MAPBOX_TOKEN=your_token ericdum/tesla-race
+2. `docker pull ericdum/tesla-race:latest`
+3. `docker run -p 3000:3000 -e PG_PORT=... -e PG_HOST=... -e MAPBOX_TOKEN=your_token ericdum/tesla-race`
 
 # Database
 

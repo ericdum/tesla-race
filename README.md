@@ -2,6 +2,8 @@
 
 The project is use to animate the trajectories of tesla trip to compare each trajectory with time dimension. For example, you can do such a kind of race between two point to find out a best path from origin to destination.
 
+![20230223155759](https://user-images.githubusercontent.com/690825/220850761-cbd92afd-90f2-4f4e-985b-c28ced8c3dc6.jpg)
+
 https://user-images.githubusercontent.com/690825/220274451-5a001fcd-f9f0-4aa8-8a8a-cecd0f428adf.mp4
 
 # Usage

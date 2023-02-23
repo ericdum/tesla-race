@@ -55,6 +55,17 @@ map.on('load', () => {
     '#4eda23',
   ];
 
+  const markerColor = [
+    '#a1dab4',
+    '#2c7fb8',
+    '#feb24c',
+    '#f03b20',
+    '#ff4747',
+    '#dad623',
+    '#2361da',
+    '#4eda23',
+  ];
+
   const windows = {
   }
 
@@ -136,8 +147,9 @@ map.on('load', () => {
       ''
     );
 
+    data.color = markerColor[data.type%markerColor.length];
     const marker = new mapboxgl.Marker({
-      color: '#F84C4C' // color it red
+      color: data.color
     })
     .setLngLat([0, 0])
     //.setPopup(popup)
@@ -149,7 +161,7 @@ map.on('load', () => {
 
     function animateLine(timestamp) {
       if (i == data.length) {
-        return //stop
+        return timeline.finish(name, data.color);//stop
         // restart if it finishes a loop
         i = 0;
         startTime = timestamp;
@@ -176,7 +188,7 @@ map.on('load', () => {
         i++;
       }
       // Request the next frame of the animation.
-      animation = requestAnimationFrame(animateLine);
+      animation = timeline.load(name, animateLine);
     }
 
     return animateLine();

@@ -15,6 +15,8 @@ body { margin: 0; padding: 0; }
   <body>
     <div id="control" style="
         z-index: 9999;
+        top: 5px;
+        left: 5px;
         position: absolute;
         max-width: 350px;
         background-color: rgba(0,0,0,0.3);
@@ -55,20 +57,41 @@ body { margin: 0; padding: 0; }
           <label for="car" class="form-label">Car</label>
           <input type="text" class="map-control form-control" id="car" name="car" value="<%=car%>">
         </div>
+        <div class="col-md-4">
+          <label for="threshold" class="form-label">Classifier Threshold</label>
+          <input type="text" class="map-control form-control" id="threshold" name="threshold" value="<%=threshold%>">
+        </div>
         <div class="col-12">
           <button id="submit" type="submit" class="btn btn-primary">Set</button>
         </div>
       </form>
     </div>
+    <div id="timer" style="
+        z-index: 9999;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: rgba(0,0,0,0.3);
+        padding: 20px;
+        ">
+      <div class="remains" style="
+        font-size:50px;
+        font-family: monaco;
+        ">00:00</div>
+      <div class="logs"></div>
+    </div>
+
     <div id="map"></div>
     <button id="pause"></button>
 
     <script>
+      // global
       const ods = <%=JSON.stringify(ods)%>
       const MAPBOX_TOKEN = '<%=mapbox_token%>';
       const CENTER = [<%=longitude%>, <%=latitude%>]
       const ZOOM = <%=zoom%>
       const SECRETS = <%=JSON.stringify(scretes)%>
+      const STEP = 1; // step for replay, unit: second
     </script>
 
     <script src="/assets/lib/mapbox-gl.js"></script>
@@ -82,6 +105,7 @@ body { margin: 0; padding: 0; }
     <script>
       map.on('load', () => {
         var data = parseData(<%=JSON.stringify(data)%>);
+        data = classify(data)
         data.forEach(function(data, i){
           createLine("data"+i, data);
         })

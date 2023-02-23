@@ -220,6 +220,7 @@ router.get('/', async (ctx) => {
     longitude: data.longitude || 120,
     latitude: data.latitude || 30,
     zoom: data.zoom || 2,
+    threshold: data.threshold || 0.1,
     car: car,
   });
 })

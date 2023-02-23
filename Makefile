@@ -13,9 +13,9 @@ build:
 	docker build . -t ericdum/tesla-race
 
 publish:
-	docker publish
+	docker image push ericdum/tesla-race
 
 
-pb: push build
+pb: push build publish
 
 one: commit push build publish

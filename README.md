@@ -31,6 +31,8 @@ FYI, you can easily gernerate the polygon by https://geojson.io/
 
 # Todo
 - [x] Autocomlete search for OD.
+- [x] Add a Timer.
+- [x] Give a Classifier for different type of route.
 - [ ] Enhance OD searching by street addresses.
 - [ ] Support long range travel.
 - [ ] Custom replay speed
